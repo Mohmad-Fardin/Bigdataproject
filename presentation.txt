@@ -1,0 +1,56 @@
+NYCRestaurantAnalytics Video Presentation Script (5-6 minutes)
+
+[0:00–0:30] Introduction
+- Say: "Hi, I'm [Your Name], and this is my big data project, NYCRestaurantAnalytics. I analyzed NYC restaurant inspection data using MongoDB, processing 100,000 records from a REST API. The project includes data ingestion, cleaning, aggregation, and three Matplotlib visualizations."
+- Show: VSCode with the project folder open, highlighting `src/` and `README.md`.
+
+[0:30–1:30] Data Ingestion (Bronze Layer)
+- Say: "First, I ingested raw data using ingest_data.py. The script fetches 100,000 JSON records from the NYC Open Data REST API and stores them in MongoDB's raw_inspections collection. Let’s run it and check the results."
+- Show:
+  - Run `poetry run python src/ingest_data.py` in the terminal (use a pre-recorded clip if slow, showing output: "Dataset: 100000 rows, 27 columns").
+  - Switch to mongosh: `use nyc_restaurants`, `db.raw_inspections.countDocuments({})` (output: 100000), and `db.raw_inspections.findOne()` to show a sample document with fields like camis, dba, and grade.
+- Say: "We have 100,000 records with 27 columns, meeting the project requirements."
+
+[1:30–2:30] Data Cleaning (Silver Layer)
+- Say: "Next, I cleaned the data using clean_data.py, which uses MongoDB aggregation pipelines—no Pandas, as required. It filters missing fields, converts inspection_date to ISODate, standardizes grades, and removes duplicates, resulting in 33,244 clean records."
+- Show:
+  - Open `clean_data.py` in VSCode, highlight the pipeline (e.g., $match, $toDate, $group).
+  - Run `poetry run python src/clean_data.py` (output: "Cleaned dataset: 33244 rows, 27 columns").
+  - In mongosh: `db.clean_inspections.countDocuments({})` (output: 33244), `db.clean_inspections.findOne()` to show cleaned fields (e.g., inspection_date as ISODate, grade in uppercase).
+- Say: "The cleaned data is stored in clean_inspections, ready for analysis."
+
+[2:30–3:30] Data Aggregation (Gold Layer)
+- Say: "For the Gold Layer, aggregate_data.py creates three collections for analysis: grade_distribution, violations_by_cuisine, and inspections_by_year. These summarize grades, top cuisines by violations, and inspections over time."
+- Show:
+  - Open `aggregate_data.py`, highlight the three pipelines (e.g., $group for grades, $sort for cuisines).
+  - Run `poetry run python src/aggregate_data.py` (output: 6, 10, 11 documents).
+  - In mongosh: `db.grade_distribution.find()` (6 grades), `db.violations_by_cuisine.find()` (10 cuisines), `db.inspections_by_year.find()` (11 years).
+- Say: "These aggregations provide the data for our visualizations."
+
+[3:30–4:30] Visualizations
+- Say: "Using visualize_data.py, I created three Matplotlib visualizations. First, grade_distribution.png shows most restaurants (25,504) got an A grade. Second, violations_by_cuisine.png reveals American cuisine has the most violations (5,980). Third, inspections_by_year.png shows a peak in 2024 with 11,060 inspections."
+- Show:
+  - Run `poetry run python src/visualize_data.py` (output: three PNGs generated).
+  - Open and display each PNG file:
+    - `grade_distribution.png`: Bar chart of grades.
+    - `violations_by_cuisine.png`: Horizontal bar chart of cuisines.
+    - `inspections_by_year.png`: Line chart of years.
+  - Briefly explain each: "This shows high compliance, American cuisine needs attention, and inspections surged recently."
+- Say: "These visualizations highlight key trends in the data."
+
+[4:30–5:30] Experience and Conclusion
+- Say: "At the semester’s start, big data was intimidating—terms like NoSQL and distributed systems were new. Working with MongoDB taught me how to ingest and process large datasets efficiently. I’m now confident with MongoDB pipelines and REST APIs, and I’m excited to apply these skills in data engineering roles. This project demonstrates a complete big data pipeline, from raw data to actionable insights."
+- Show: `README.md` in VSCode, scrolling through the sections (Dataset, Visualizations, Experience).
+- Say: "The project is on GitHub at [Insert URL], and this video is on YouTube. Thank you for watching!"
+
+[5:30–6:00] Wrap-Up
+- Say: "To summarize, NYCRestaurantAnalytics processes 100,000 records using MongoDB, delivers clean data, and visualizes trends. I hope you found this walkthrough insightful. Please check the GitHub repo for all scripts and details."
+- Show: GitHub repository page (if uploaded) or project folder again.
+- End with: "Thanks again, and I look forward to any feedback!"
+
+Notes:
+- Keep the pace steady to stay within 5-6 minutes.
+- Ensure screen resolution is 1080p for readable text.
+- Use OBS Studio or similar for recording, save as MP4, and upload as unlisted to YouTube.
+- Pre-record slow commands (e.g., ingest_data.py) to save time, but show live mongosh queries and PNGs.
+- Practice the script to sound natural and confident.
